@@ -1,0 +1,55 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Environment secrets
+.env
+
+# Database
+instance/*.db
+*.sqlite3
+
+# Uploads / runtime data (keep folder structure via .gitkeep)
+uploads/**
+!uploads/**/.gitkeep
+uploads/videos/original/*
+uploads/videos/compressed/*
+uploads/videos/thumbnails/*
+uploads/audio/extracted/*
+uploads/audio/cleaned/*
+uploads/audio/noise_removed/*
+uploads/transcripts/raw/*
+uploads/transcripts/cleaned/*
+uploads/transcripts/json/*
+uploads/temp/*
+!uploads/**/.gitkeep
+
+data/processed/**/*
+!data/processed/**/.gitkeep
+
+logs/*.log
+
+# Models (downloaded at runtime, not committed)
+models/whisper/*
+models/nltk/*
+models/textblob/*
+models/trained_models/*
+!models/**/.gitkeep
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Build artifacts
+*.egg-info/
+dist/
+build/

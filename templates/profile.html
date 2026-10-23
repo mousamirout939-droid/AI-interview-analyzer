@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Profile — AI Interview Analyzer{% endblock %}
+{% block content %}
+  <div class="card" style="max-width:560px;margin:0 auto;">
+    <h1>Your Profile</h1>
+    <form method="POST" action="{{ url_for('profile.view_profile') }}">
+      <div class="form-group">
+        <label for="full_name">Full name</label>
+        <input type="text" id="full_name" name="full_name" value="{{ current_user.full_name }}" required>
+      </div>
+      <div class="form-group">
+        <label>Email address</label>
+        <input type="email" value="{{ current_user.email }}" disabled>
+        <p class="help-text">Email cannot be changed from this form.</p>
+      </div>
+      <div class="form-group">
+        <label for="bio">Bio</label>
+        <textarea id="bio" name="bio" placeholder="Tell us a bit about yourself...">{{ current_user.bio or '' }}</textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+  </div>
+{% endblock %}

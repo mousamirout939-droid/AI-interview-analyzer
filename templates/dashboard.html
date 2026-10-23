@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — AI Interview Analyzer{% endblock %}
+{% block content %}
+  <div class="flex-between mb-3">
+    <div>
+      <h1 class="mb-0">Welcome back, {{ current_user.full_name.split(' ')[0] }} 👋</h1>
+      <p class="text-muted mt-0">Build your skills, follow your roadmap, and practise for your next interview.</p>
+    </div>
+    <div class="hero-actions">
+      <a href="{{ url_for('resume.roadmap') }}" class="btn btn-outline">Resume roadmap</a>
+      <a href="{{ url_for('upload.handle_upload') }}" class="btn btn-accent">+ New Interview</a>
+    </div>
+  </div>
+
+  <div class="grid-3 mb-4">
+    <div class="stat-card">
+      <div class="stat-label">Total Interviews</div>
+      <div class="stat-value">{{ total_interviews }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Completed Analyses</div>
+      <div class="stat-value">{{ completed_interviews }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Average Overall Score</div>
+      <div class="stat-value">{{ avg_score if avg_score is not none else '—' }}{% if avg_score is not none %}<span style="font-size:1rem;color:var(--text-muted);">/100</span>{% endif %}</div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="dot"></span><h2 class="mb-0">Recent Interviews</h2></div>
+
+  {% if recent_interviews %}
+    <div class="card">
+      <table>
+        <thead><tr><th>Title</th><th>Status</th><th>Uploaded</th><th></th></tr></thead>
+        <tbody>
+          {% for interview in recent_interviews %}
+          <tr>
+            <td>{{ interview.title }}</td>
+            <td><span class="badge badge-status-{{ interview.status }}">{{ interview.status }}</span></td>
+            <td class="text-muted">{{ format_datetime(interview.created_at) }}</td>
+            <td>
+              {% if interview.status == 'completed' %}
+                <a href="{{ url_for('analysis.view_analysis', interview_id=interview.id) }}" class="btn btn-sm btn-outline">View Analysis</a>
+              {% else %}
+                <span class="text-muted">—</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="card empty-state">
+      <div class="empty-icon">🎬</div>
+      <h3>No interviews yet</h3>
+      <p class="text-muted">Upload your first practice interview to get AI-powered feedback.</p>
+      <a href="{{ url_for('upload.handle_upload') }}" class="btn btn-primary mt-2">Upload Interview</a>
+    </div>
+  {% endif %}
+{% endblock %}

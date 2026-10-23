@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}AI Interview Analyzer — Practice, Analyze, Improve{% endblock %}
+{% block content %}
+  <section class="hero">
+    <span class="hero-eyebrow">🌿 Your path from resume to interview-ready</span>
+    <h1>Know what to learn next. Practise for the role you want.</h1>
+    <p class="lead">Upload your resume for a skill-based study roadmap, open programming guides in one place, and practise interviews with detailed feedback.</p>
+    <div class="hero-actions">
+      <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Build My Roadmap</a>
+      <a href="{{ url_for('auth.login') }}" class="btn btn-outline">I already have an account</a>
+      <a href="{{ url_for('learning.index') }}" class="btn btn-accent">Explore Learning</a>
+    </div>
+  </section>
+
+  <section class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon lav">🧭</div>
+      <h3>Resume-to-Role Roadmap</h3>
+      <p class="text-muted">See skills detected in your resume, choose a role target, and get focused learning priorities linked to relevant guides.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon pink">📚</div>
+      <h3>Learn Programming Languages</h3>
+      <p class="text-muted">Read beginner, intermediate, and advanced guides for Python, JavaScript, Java, C/C++, C#, Rust, PHP, SQL, and more.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon green">📈</div>
+      <h3>Interview Preparation</h3>
+      <p class="text-muted">Practise role-specific questions, upload a mock interview recording, and get feedback on fluency, confidence, and technical depth.</p>
+    </div>
+  </section>
+{% endblock %}

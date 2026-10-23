@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Resume Roadmap — AI Interview Analyzer{% endblock %}
+{% block content %}
+  <header class="resume-hero">
+    <span class="hero-eyebrow">Your next steps, made clearer</span>
+    <h1>Turn your resume into a learning roadmap.</h1>
+    <p class="lead">Choose a target role or let us suggest a starting point. We'll connect skills in your resume to study topics, programming guides, and interview practice.</p>
+  </header>
+
+  {% if error %}
+    <div class="flash flash-error" role="alert">{{ error }}</div>
+  {% endif %}
+
+  <section class="card question-preview" aria-labelledby="question-preview-title">
+    <h2 id="question-preview-title">What kinds of interview questions can you practise?</h2>
+    <div class="question-preview-grid">
+      <p><strong>Resume &amp; project:</strong> Explain your experience, contributions, and project results.</p>
+      <p><strong>Technical:</strong> Questions matched to technologies detected in your resume and your target role.</p>
+      <p><strong>Aptitude &amp; problem-solving:</strong> Practise reasoning through coding and troubleshooting challenges.</p>
+      <p><strong>Behavioral:</strong> Prepare examples about teamwork, learning, and handling setbacks.</p>
+    </div>
+    <p class="help-text">Upload your resume to see tailored practice questions. These are suggestions, not a scored assessment.</p>
+  </section>
+
+  <form class="card resume-form" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="resume_file">Resume file</label>
+      <input type="file" id="resume_file" name="resume_file" accept=".pdf,.docx,.txt" required>
+      <p class="help-text">PDF, DOCX, or TXT. Maximum size: 5 MB. Your file is processed for this request and is not saved.</p>
+    </div>
+    <div class="form-group">
+      <label for="target_role">What kind of role are you preparing for?</label>
+      <select id="target_role" name="target_role">
+        <option value="auto">Suggest a track from my resume</option>
+        <option value="backend">Backend development</option>
+        <option value="frontend">Frontend development</option>
+        <option value="full-stack">Full-stack development</option>
+        <option value="data-ai">Data &amp; AI</option>
+        <option value="general">General software development</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Create My Study Roadmap</button>
+  </form>
+
+  {% if result %}
+    <section class="resume-results" aria-live="polite">
+      <div class="resume-track card">
+        <span class="learning-category">Recommended role track</span>
+        <h2>{{ result.track.title }}</h2>
+        <p>{{ result.track.description }}</p>
+        <p class="help-text">This is a keyword-based suggestion to help you plan, not a hiring assessment.</p>
+      </div>
+
+      <div class="section-title"><span class="dot"></span><h2 class="mb-0">Your study roadmap</h2></div>
+      <div class="roadmap-list">
+        {% for step in result.roadmap %}
+          <article class="roadmap-step card">
+            <span class="roadmap-step-number">0{{ loop.index }}</span>
+            <div><h3>{{ step.title }}</h3><p>{{ step.description }}</p></div>
+          </article>
+        {% endfor %}
+      </div>
+
+      <div class="grid-2 resume-details">
+        <section class="card">
+          <h2>Skills found in your resume</h2>
+          {% if result.detected_skills %}
+            <ul class="skill-list">{% for skill in result.detected_skills %}<li>{{ skill }}</li>{% endfor %}</ul>
+          {% else %}
+            <p class="text-muted">No supported programming or technology keywords were detected. Try a resume with a skills or project section.</p>
+          {% endif %}
+        </section>
+        <section class="card">
+          <h2>Study these next</h2>
+          {% if result.missing_skills %}
+            <ul class="study-list">
+              {% for skill in result.missing_skills %}
+                <li>
+                  <span>{{ skill }}</span>
+                  {% for guide in result.recommended_guides %}
+                    {% if guide.name == skill %}
+                      <a href="{{ url_for('learning.language', slug=guide.slug) }}">Open guide</a>
+                    {% endif %}
+                  {% endfor %}
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="text-muted">Your resume mentions the core skills for this track. Go deeper with projects and practise explaining your choices.</p>
+          {% endif %}
+          <a href="{{ url_for('learning.index') }}" class="btn btn-outline mt-2">Browse all language guides</a>
+        </section>
+      </div>
+
+      <section class="card interview-prep">
+        <span class="learning-category">Interview preparation</span>
+        <h2>What questions could you be asked?</h2>
+        <p class="text-muted">These practice prompts are based on the skills detected in your resume and your selected role: {{ result.track.title }}.</p>
+        <div class="question-category-grid">
+          {% for category in result.question_categories %}
+            <section class="question-category">
+              <h3>{{ category.title }}</h3>
+              <ol>{% for question in category.questions %}<li>{{ question }}</li>{% endfor %}</ol>
+            </section>
+          {% endfor %}
+        </div>
+        <p class="help-text">These are practice suggestions, not a scored aptitude test. Actual interview questions vary by employer and role.</p>
+        <p class="text-muted">Practise aloud, then record an answer to get feedback on your delivery.</p>
+        <a href="{{ url_for('upload.handle_upload') }}" class="btn btn-accent">Record a practice interview</a>
+      </section>
+    </section>
+  {% endif %}
+{% endblock %}

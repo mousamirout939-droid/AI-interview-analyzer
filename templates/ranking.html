@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Leaderboard — AI Interview Analyzer{% endblock %}
+{% block content %}
+  <h1>Candidate Leaderboard</h1>
+  <p class="text-muted mt-0 mb-3">Ranked by overall interview performance score across all completed analyses.</p>
+
+  {% if leaderboard %}
+  <div class="card">
+    <table>
+      <thead><tr><th>Rank</th><th>Candidate</th><th>Interview</th><th>Score</th><th>Verdict</th></tr></thead>
+      <tbody>
+        {% for c in leaderboard %}
+        <tr>
+          <td><span class="rank-pill {{ 'rank-' ~ c.rank if c.rank <= 3 else '' }}">{{ c.rank }}</span></td>
+          <td>{{ c.name }}</td>
+          <td class="text-muted">{{ c.title }}</td>
+          <td><strong>{{ c.overall_score }}</strong>/100</td>
+          <td><span class="badge {{ score_badge_class(c.overall_score) }}">{{ c.verdict }}</span></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="card empty-state">
+    <div class="empty-icon">🏆</div>
+    <h3>No rankings yet</h3>
+    <p class="text-muted">Complete an interview analysis to appear on the leaderboard.</p>
+  </div>
+  {% endif %}
+{% endblock %}

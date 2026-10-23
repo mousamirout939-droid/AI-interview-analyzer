@@ -1,0 +1,27 @@
+# ============================================================
+# Render.com deployment blueprint
+# Deploy with: https://render.com/docs/blueprint-spec
+# ============================================================
+services:
+  - type: web
+    name: ai-interview-analyzer
+    env: python
+    plan: starter
+    buildCommand: "pip install -r requirements.txt && apt-get update && apt-get install -y ffmpeg && python scripts/download_models.py"
+    startCommand: "gunicorn -c deployment/gunicorn.conf.py app:app"
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        value: sqlite:///instance/interview_analyzer.db
+      - key: TRANSCRIPTION_BACKEND
+        value: google
+      - key: PYTHON_VERSION
+        value: 3.11.9
+    healthCheckPath: /health
+    disk:
+      name: interview-analyzer-data
+      mountPath: /opt/render/project/src/instance
+      sizeGB: 1

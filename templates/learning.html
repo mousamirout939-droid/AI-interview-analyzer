@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Learning — AI Interview Analyzer{% endblock %}
+{% block content %}
+  <section class="learning-hero">
+    <span class="hero-eyebrow">Programming guides</span>
+    <h1>Learn by building, one concept at a time.</h1>
+    <p class="lead">Explore original notes and code examples from the fundamentals to advanced patterns. Choose a language to open its complete guide.</p>
+  </section>
+
+  <section class="learning-grid" aria-label="Programming language guides">
+    {% for language in languages %}
+      <a class="learning-card" href="{{ url_for('learning.language', slug=language.slug) }}">
+        <span class="learning-category">{{ language.category }}</span>
+        <h2>{{ language.name }}</h2>
+        <p>{{ language.summary }}</p>
+        <span class="learning-card-link">Open guide <span aria-hidden="true">&rarr;</span></span>
+      </a>
+    {% endfor %}
+  </section>
+  <p class="learning-disclaimer">Examples are for learning and are not executed on this site. Check the documentation for your language version and environment.</p>
+{% endblock %}

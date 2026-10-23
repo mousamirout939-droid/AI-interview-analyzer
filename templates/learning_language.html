@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{{ language.name }} Guide — Learning{% endblock %}
+{% block content %}
+  <nav class="learning-breadcrumb" aria-label="Breadcrumb">
+    <a href="{{ url_for('learning.index') }}">Learning</a>
+    <span aria-hidden="true">/</span>
+    <span>{{ language.name }}</span>
+  </nav>
+
+  <header class="learning-language-header">
+    <span class="learning-category">{{ language.category }}</span>
+    <h1>{{ language.name }}</h1>
+    <p>{{ language.summary }}</p>
+  </header>
+
+  <nav class="learning-toc card" aria-label="Guide sections">
+    <strong>In this guide</strong>
+    {% for level in language.levels %}
+      <a href="#{{ level.id }}">{{ level.label }}</a>
+    {% endfor %}
+  </nav>
+
+  {% for level in language.levels %}
+    <section class="learning-level" id="{{ level.id }}">
+      <div class="learning-level-heading">
+        <span class="learning-level-number">0{{ loop.index }}</span>
+        <div>
+          <h2>{{ level.label }}</h2>
+          <p>{{ level.intro }}</p>
+        </div>
+      </div>
+      {% for topic in level.topics %}
+        <article class="learning-topic card">
+          <h3>{{ topic.title }}</h3>
+          <ul class="learning-notes">
+            {% for note in topic.notes %}
+              <li>{{ note }}</li>
+            {% endfor %}
+          </ul>
+          <div class="learning-code-heading"><span>Example</span><span>{{ language.name }}</span></div>
+          <pre class="learning-code"><code>{{ topic.code }}</code></pre>
+        </article>
+      {% endfor %}
+    </section>
+  {% endfor %}
+
+  <div class="learning-back">
+    <a class="btn btn-outline" href="{{ url_for('learning.index') }}">Browse all languages</a>
+  </div>
+{% endblock %}

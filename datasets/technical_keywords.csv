@@ -1,0 +1,31 @@
+keyword_id,keyword,domain,weight
+1,algorithm,software_engineering,1.0
+2,data structure,software_engineering,1.0
+3,api,software_engineering,0.9
+4,database,software_engineering,0.9
+5,microservices,software_engineering,1.0
+6,scalability,software_engineering,1.0
+7,cloud computing,software_engineering,0.9
+8,rest,software_engineering,0.8
+9,object oriented,software_engineering,0.9
+10,unit testing,software_engineering,0.8
+11,agile,project_management,0.8
+12,scrum,project_management,0.8
+13,machine learning,data_science,1.0
+14,neural network,data_science,1.0
+15,regression,data_science,0.9
+16,classification,data_science,0.9
+17,feature engineering,data_science,0.9
+18,sql,data_science,0.8
+19,version control,software_engineering,0.7
+20,ci/cd,software_engineering,0.9
+21,docker,software_engineering,0.8
+22,kubernetes,software_engineering,0.9
+23,leadership,soft_skills,0.9
+24,communication,soft_skills,0.9
+25,teamwork,soft_skills,0.8
+26,problem solving,soft_skills,1.0
+27,stakeholder,business,0.8
+28,roadmap,business,0.7
+29,architecture,software_engineering,1.0
+30,security,software_engineering,0.9

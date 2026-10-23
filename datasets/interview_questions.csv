@@ -1,0 +1,11 @@
+question_id,question,category,difficulty
+1,Tell me about yourself and your professional background.,general,easy
+2,What is your greatest strength and how does it apply to this role?,general,easy
+3,Describe a challenging project you worked on and how you handled it.,behavioral,medium
+4,Explain the difference between a stack and a queue.,technical,medium
+5,How would you design a scalable system for a high-traffic web application?,technical,hard
+6,Tell me about a time you disagreed with a teammate and how you resolved it.,behavioral,medium
+7,What is your approach to debugging a production issue under time pressure?,technical,hard
+8,Where do you see yourself in five years?,general,easy
+9,Explain how you would optimize a slow database query.,technical,medium
+10,Describe a situation where you had to learn a new technology quickly.,behavioral,medium

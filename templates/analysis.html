@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Analysis — {{ interview.title }}{% endblock %}
+{% block content %}
+  <div class="flex-between mb-3">
+    <div>
+      <h1 class="mb-0">{{ interview.title }}</h1>
+      <p class="text-muted mt-0">{{ interview.question or 'No specific question recorded.' }}</p>
+    </div>
+    <a href="{{ url_for('report.view_report', interview_id=interview.id) }}" class="btn btn-pink">View Full Report</a>
+  </div>
+
+  {% if analysis %}
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="section-title"><span class="dot"></span><h3 class="mb-0">Overall Score</h3></div>
+      <div class="stat-value" style="font-size:3rem;">{{ analysis.overall_score }}<span style="font-size:1.2rem;color:var(--text-muted);">/100</span></div>
+      <span class="badge {{ score_badge_class(analysis.overall_score) }}">{{ analysis.verdict }}</span>
+      <p class="text-muted mt-2">Dominant emotion: <strong>{{ analysis.dominant_emotion or 'neutral' }}</strong> · Sentiment: <strong>{{ analysis.sentiment_label or 'neutral' }}</strong></p>
+    </div>
+
+    <div class="card">
+      <div class="section-title"><span class="dot"></span><h3 class="mb-0">Dimension Scores</h3></div>
+      {% for dim, score in analysis.dimension_scores().items() %}
+      <div class="score-row">
+        <div class="score-label">{{ dim.title() }}</div>
+        <div class="score-track"><div class="score-fill" data-width="{{ score }}%"></div></div>
+        <div class="score-value">{{ score }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="section-title"><span class="dot"></span><h3 class="mb-0">Strengths</h3></div>
+      {% if strengths %}
+        {% for s in strengths %}
+          <p>✅ {{ s.description }}</p>
+        {% endfor %}
+      {% else %}
+        <p class="text-muted">No standout strengths detected above threshold — a fairly balanced performance.</p>
+      {% endif %}
+    </div>
+    <div class="card">
+      <div class="section-title"><span class="dot"></span><h3 class="mb-0">Areas to Improve</h3></div>
+      {% if weaknesses %}
+        {% for w in weaknesses %}
+          <p>🌱 {{ w.description }}</p>
+        {% endfor %}
+      {% else %}
+        <p class="text-muted">No major weaknesses detected — nicely consistent across the board.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="section-title"><span class="dot"></span><h3 class="mb-0">Improvement Tips</h3></div>
+    {% for group in tips %}
+      <p><strong>{{ group.dimension.title() }}</strong></p>
+      <ul>
+        {% for tip in group.tips %}<li>{{ tip }}</li>{% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-muted">No specific tips generated — great job overall!</p>
+    {% endfor %}
+  </div>
+
+  <div class="card">
+    <div class="section-title"><span class="dot"></span><h3 class="mb-0">Transcript</h3></div>
+    <p style="white-space:pre-wrap;line-height:1.7;">{{ transcript.cleaned_text if transcript else 'Transcript unavailable.' }}</p>
+  </div>
+
+  {% else %}
+  <div class="card empty-state">
+    <div class="empty-icon">⏳</div>
+    <h3>Analysis not available</h3>
+    <p class="text-muted">This interview hasn't finished processing yet.</p>
+  </div>
+  {% endif %}
+{% endblock %}

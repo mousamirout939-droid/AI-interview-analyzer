@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Upload Interview — AI Interview Analyzer{% endblock %}
+{% block content %}
+  <div class="card" style="max-width:640px;margin:0 auto;">
+    <h1>Upload a Practice Interview</h1>
+    <p class="text-muted mt-0 mb-3">We'll transcribe your recording and analyze fluency, confidence, grammar, vocabulary, technical depth, and communication — usually within a minute.</p>
+
+    <form method="POST" enctype="multipart/form-data" id="upload-form" action="{{ url_for('upload.handle_upload') }}">
+      <div class="form-group">
+        <label for="title">Interview title</label>
+        <input type="text" id="title" name="title" placeholder="e.g. Backend Engineer — Mock Round 1">
+      </div>
+      <div class="form-group">
+        <label for="question">Interview question (optional)</label>
+        <textarea id="question" name="question" placeholder="e.g. Tell me about a challenging project you worked on."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Video or audio recording</label>
+        <div class="upload-drop">
+          <div style="font-size:2rem;">📤</div>
+          <p><strong>Drag and drop</strong> your file here, or</p>
+          <input type="file" id="media_file" name="media_file" accept=".mp4,.mov,.avi,.mkv,.webm,.wav,.mp3,.m4a,.flac,.ogg" required style="max-width:280px;margin:0 auto;">
+          <p id="file-chosen-label" class="help-text mt-1">MP4, MOV, WAV, MP3 and more supported. Max 250MB.</p>
+        </div>
+      </div>
+      <button type="submit" id="upload-submit-btn" class="btn btn-primary btn-block mt-2">Analyze My Interview</button>
+    </form>
+  </div>
+{% endblock %}

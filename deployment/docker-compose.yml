@@ -1,0 +1,29 @@
+# ============================================================
+# AI Interview Analyzer — docker-compose (local/staging use)
+# ============================================================
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    image: ai-interview-analyzer:latest
+    container_name: ai-interview-analyzer
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - SECRET_KEY=${SECRET_KEY:-change-this-in-production}
+      - DATABASE_URL=sqlite:///instance/interview_analyzer.db
+      - TRANSCRIPTION_BACKEND=${TRANSCRIPTION_BACKEND:-google}
+    volumes:
+      - app-instance:/app/instance
+      - app-uploads:/app/uploads
+      - app-logs:/app/logs
+    restart: unless-stopped
+
+volumes:
+  app-instance:
+  app-uploads:
+  app-logs:

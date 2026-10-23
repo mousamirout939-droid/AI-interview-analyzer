@@ -1,0 +1,9 @@
+[project]
+name = "ai-interview-analyzer"
+version = "0.1.0"
+description = "Interview audio analysis and scoring toolkit"
+readme = "README.md"
+requires-python = ">=3.11"
+
+[project.scripts]
+ai-interview-transcribe = "scripts.run_transcription:main"
