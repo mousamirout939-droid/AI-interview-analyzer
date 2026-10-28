@@ -15,7 +15,7 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: DATABASE_URL
-        value: sqlite:///instance/interview_analyzer.db
+        value: sqlite:///interview_analyzer.db
       - key: TRANSCRIPTION_BACKEND
         value: google
       - key: PYTHON_VERSION

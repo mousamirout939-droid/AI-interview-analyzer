@@ -15,7 +15,7 @@ services:
     environment:
       - FLASK_ENV=production
       - SECRET_KEY=${SECRET_KEY:-change-this-in-production}
-      - DATABASE_URL=sqlite:///instance/interview_analyzer.db
+      - DATABASE_URL=sqlite:///interview_analyzer.db
       - TRANSCRIPTION_BACKEND=${TRANSCRIPTION_BACKEND:-google}
     volumes:
       - app-instance:/app/instance
