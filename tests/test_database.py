@@ -4,7 +4,26 @@ test_database.py
 Verifies ORM models can be created and related correctly.
 """
 
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
 from APP.database import User, Interview, Analysis
+from config import BaseConfig
+
+
+def test_sqlite_database_parent_directory_is_created(tmp_path):
+    app = Flask(__name__, instance_path=str(tmp_path))
+    app.config.from_object(BaseConfig)
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///instance/interview_analyzer.db"
+
+    BaseConfig.init_app(app)
+    db = SQLAlchemy(app)
+
+    with app.app_context():
+        with db.engine.connect():
+            pass
+
+    assert (tmp_path / "instance").is_dir()
 
 
 def test_user_password_hashing(app, db):

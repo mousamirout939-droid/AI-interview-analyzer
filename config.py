@@ -11,6 +11,7 @@ safely deployed to different environments.
 import os
 from datetime import timedelta
 from dotenv import load_dotenv
+from sqlalchemy.engine import make_url
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
@@ -89,6 +90,18 @@ class BaseConfig:
     @staticmethod
     def init_app(app):
         """Hook for subclasses / factory to run extra setup."""
+        database_url = make_url(app.config["SQLALCHEMY_DATABASE_URI"])
+        database_path = database_url.database
+        if (
+            database_url.get_backend_name() == "sqlite"
+            and database_path
+            and database_path != ":memory:"
+            and not database_path.startswith("file:")
+        ):
+            if not os.path.isabs(database_path):
+                database_path = os.path.join(app.instance_path, database_path)
+            os.makedirs(os.path.dirname(database_path), exist_ok=True)
+
         for folder in [
             app.config["BASE_UPLOAD_FOLDER"],
             app.config["VIDEO_ORIGINAL_FOLDER"],
