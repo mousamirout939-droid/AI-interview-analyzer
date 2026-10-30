@@ -10,7 +10,7 @@ Usage:
 import multiprocessing
 import os
 
-bind = f"0.0.0.0:{os.environ.get('PORT', 5000)}"
+bind = f"0.0.0.0:{os.environ.get('PORT', 10000)}"
 workers = int(os.environ.get("GUNICORN_WORKERS", multiprocessing.cpu_count() * 2 + 1))
 worker_class = "sync"
 timeout = int(os.environ.get("GUNICORN_TIMEOUT", 120))  # AI pipeline processing can take a while

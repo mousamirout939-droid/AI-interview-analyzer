@@ -18,6 +18,8 @@ services:
         value: sqlite:///interview_analyzer.db
       - key: TRANSCRIPTION_BACKEND
         value: google
+      - key: PORT
+        value: 10000
       - key: PYTHON_VERSION
         value: 3.11.9
     healthCheckPath: /health
